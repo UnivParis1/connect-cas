@@ -5,15 +5,17 @@ var should = require('should');
 var parseUrl = require('url').parse;
 var request = require('request').defaults({strictSSL: false, followRedirect: false});
 var https = require('https');
-var http = require('http');
 var q = require('q');
 var fs = require('fs');
 
 var lastRequest;
 cas.configure({
-    protocol: 'http',
+    protocol: 'https',
     hostname: 'localhost',
-    port: 1337
+    port: 1337,
+    agentOptions : {
+        ca : fs.readFileSync(__dirname + "/certs/rootCA.pem"),
+    },
 });
 
 describe('#proxyTicket', function(){
@@ -100,10 +102,14 @@ var casServerSetup = function(done){
             res.send('<cas:serviceResponse><cas:proxyFailed></cas:proxyFailed></cas:serviceResponse>');
         }
     });
-    var server = http.createServer(app).listen(1337, done);
+    var server = https.createServer({
+      key: fs.readFileSync(__dirname + '/certs/localhost.key'),
+      cert: fs.readFileSync(__dirname + '/certs/localhost.crt')
+    }, app).listen(1337, done);
     server.setTimeout(20);
     return server;
 };
+
 var serverSetup = function(options, done){
     var app = express()
     .use(connect.cookieParser())

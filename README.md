@@ -23,6 +23,7 @@ Many of these options are borrowed from node's [url documentation](http://nodejs
     - `proxyValidate` Path to validate PGT (not implemented)
     - `proxy` Path to obtain a proxy ticket
     - `login` Path to the CAS login
+  - `agentOptions` - Options used when making requests to the CAS server ([see request's docs here](https://www.npmjs.com/package/request#using-optionsagentoptions))
 
 ## Usage
 

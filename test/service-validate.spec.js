@@ -3,15 +3,22 @@ var connect = require('connect');
 var cas = require('../');
 var should = require('should');
 var parseUrl = require('url').parse;
-var request = require('request').defaults({followRedirect: false, strictSSL: false});
-var https = require('https');
 var fs = require('fs');
-var http = require('http');
+var request = require('request').defaults({
+  followRedirect: false,
+  agentOptions : {
+      ca : fs.readFileSync(__dirname + '/certs/rootCA.pem'),
+  }
+});
+var https = require('https');
 
 cas.configure({
-    protocol: 'http',
+    protocol: 'https',
     hostname: 'localhost',
-    port: 1337
+    port: 1337,
+    agentOptions : {
+        ca : fs.readFileSync(__dirname + '/certs/rootCA.pem')
+    }
 });
 
 var lastRequest;
@@ -30,6 +37,16 @@ describe('#serviceValidate', function(){
         });
 
         describe('when ticket presented', function(){
+
+            it("can talk to cas server directly", function(done) {
+                request.get("https://localhost:1337/cas/serviceValidate?ticket=validTicket",
+                    { strictSSL : true, agentOptions : { ca : fs.readFileSync(__dirname + "/certs/rootCA.pem") } },
+                    function(err, response) {
+                    response.statusCode.should.equal(200);
+                    done();
+                });
+            });
+
             it('success if ticket valid', function(done){
                 request.get('https://localhost:3000/somePath?ticket=validTicket', function(err, response){
                     response.statusCode.should.equal(200);
@@ -49,7 +66,7 @@ describe('#serviceValidate', function(){
             it('redirect to login when no session and ticket invalid', function(done){
                 request.get({uri: 'https://localhost:3000/?ticket=invalidTicket', followRedirect: false}, function(err, response){
                     response.statusCode.should.equal(307);
-                    response.headers.location.should.equal('http://localhost:1337/cas/login?service=https%3A%2F%2Flocalhost%3A3000%2F');
+                    response.headers.location.should.equal('https://localhost:1337/cas/login?service=https%3A%2F%2Flocalhost%3A3000%2F');
                     done();
                 });
             });
@@ -96,7 +113,7 @@ describe('#serviceValidate', function(){
             it('keeps the querystring parameters during the redirect', function(done){
                 request.get({uri: 'https://localhost:3000/?randomquerystring=true', followRedirect: false}, function(err, response){
                     response.statusCode.should.equal(307);
-                    response.headers.location.should.equal('http://localhost:1337/cas/login?service=https%3A%2F%2Flocalhost%3A3000%2F%3Frandomquerystring%3Dtrue');
+                    response.headers.location.should.equal('https://localhost:1337/cas/login?service=https%3A%2F%2Flocalhost%3A3000%2F%3Frandomquerystring%3Dtrue');
                     done();
                 });
             });
@@ -227,7 +244,10 @@ var casServerSetup = function(done){
         }
         res.end(response);
     });
-    var server = http.createServer(app).listen(1337, done);
+    var server = https.createServer({
+      key: fs.readFileSync(__dirname + '/certs/localhost.key'),
+      cert: fs.readFileSync(__dirname + '/certs/localhost.crt')
+    }, app).listen(1337, done);
     server.setTimeout(50);
     return server;
 };
