@@ -231,6 +231,7 @@ var casServerSetup = function(done){
     server.setTimeout(50);
     return server;
 };
+
 var serverSetup = function(options, done){
     var app = express()
     .use(connect.cookieParser())
@@ -250,8 +251,8 @@ var serverSetup = function(options, done){
         res.end('hello world');
     });
     var server = https.createServer({
-        key: fs.readFileSync(__dirname + '/certs/localhost3000.key'),
-        cert: fs.readFileSync(__dirname + '/certs/localhost3000.crt')
+        key: fs.readFileSync(__dirname + '/certs/localhost.key'),
+        cert: fs.readFileSync(__dirname + '/certs/localhost.crt')
     }, app).listen(3000, done);
     //server.setTimeout(20);
     return server;
