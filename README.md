@@ -14,7 +14,7 @@ Adapted from https://github.com/jmarca/cas_validate
 
 Many of these options are borrowed from node's [url documentation](http://nodejs.org/api/url.html).  You may set global options through the `.configure()` method or override them with any of the exposed middleware.
 
-  - `procotol` The protocol to communicate with the CAS Server.  Defaults to 'https'.
+  - `protocol` The protocol to communicate with the CAS Server.  Defaults to 'https'.
   - `host` CAS server hostname
   - `port` CAS server port number.  Defaults to 443.
   - `gateway` Send all validation requests through the CAS gateway feature.  Defaults to false.
