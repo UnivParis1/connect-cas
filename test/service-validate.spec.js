@@ -2,7 +2,6 @@ var express = require('express');
 var connect = require('connect');
 var cas = require('../');
 var should = require('should');
-var parseUrl = require('url').parse;
 var fs = require('fs');
 var request = require('request').defaults({
   followRedirect: false,
