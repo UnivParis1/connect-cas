@@ -28,10 +28,10 @@ describe('#proxyTicket', function(){
         } else done();
     });
     it('exists', function(){
-        cas.proxyTicket.should.be.a('function');
+        cas.proxyTicket.should.be.an.instanceOf(Function);
     });
     it('is a middleware', function(){
-        cas.proxyTicket({targetService: 'atyourservice'}).should.be.a('function');
+        cas.proxyTicket({targetService: 'atyourservice'}).should.be.an.instanceOf(Function);
     });
     it('throws an error when targetService is not specified', function(){
         (function(){cas.proxyTicket()}).should.throw('no target proxy service specified');

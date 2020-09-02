@@ -32,7 +32,7 @@
     "connect-redis": "~1.4.5",
     "express": "^4.17.1",
     "mocha": "^6.2.3",
-    "should": "~1.2.2"
+    "should": "^13.2.3"
   },
   "bugs": {
     "url": "https://github.com/AceMetrix/connect-cas/issues"
