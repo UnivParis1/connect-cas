@@ -18,7 +18,7 @@
     "node": "*"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter list test/*.spec.js"
+    "test": "mocha --reporter list test/*.spec.js"
   },
   "dependencies": {
     "http-status-codes": "^1.0.5",
