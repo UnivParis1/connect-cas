@@ -30,7 +30,7 @@
   "devDependencies": {
     "connect": "~2.7.6",
     "connect-redis": "~1.4.5",
-    "express": "~3.2.0",
+    "express": "^4.17.1",
     "mocha": "^6.2.3",
     "should": "~1.2.2"
   },
