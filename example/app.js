@@ -54,5 +54,6 @@ app.get('/logout', function(req, res) {
   return res.redirect(url.format(options));
 });
 
-app.listen(3000);
-
+var port = 3000;
+app.listen(port);
+console.log("example application started on http://localhost:" + port)
