@@ -30,10 +30,10 @@ Many of these options are borrowed from node's [url documentation](http://nodejs
 ```javascript
 var cas = require('connect-cas');
 var connect = require('connect');
+var session = require('express-session');
 
 connect()
-  .use(connect.cookieParser('hello world'))
-  .use(connect.cookieSession()) // or whatever session store
+  .use(session({ secret: 'foo' })) // or whatever session store
   .use(cas.serviceValidate())
   .use(cas.authenticate())
 ```

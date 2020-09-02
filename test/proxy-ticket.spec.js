@@ -1,5 +1,5 @@
 var express = require('express');
-var connect = require('connect');
+var session = require('express-session');
 var cas = require('../');
 var should = require('should');
 var request = require('request').defaults({strictSSL: false, followRedirect: false});
@@ -110,10 +110,8 @@ var casServerSetup = function(done){
 
 var serverSetup = function(options, done){
     var app = express()
-    .use(connect.cookieParser())
-    .use(connect.session({
+    .use(session({
         secret: 'ninja cat',
-        key: 'sid'
     }))
     if (options.beforeMiddleware) app.use(options.beforeMiddleware);
     app.use(cas.proxyTicket(options));

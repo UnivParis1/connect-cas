@@ -1,5 +1,5 @@
 var express = require('express');
-var connect = require('connect');
+var session = require('express-session');
 var cas = require('../');
 var should = require('should');
 var fs = require('fs');
@@ -253,10 +253,8 @@ var casServerSetup = function(done){
 
 var serverSetup = function(options, done){
     var app = express()
-    .use(connect.cookieParser())
-    .use(connect.session({
+    .use(session({
         secret: 'ninja cat',
-        key: 'sid'
     }))
     if (options) app.use(cas.serviceValidate(options))
     else app.use(cas.serviceValidate())

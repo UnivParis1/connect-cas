@@ -1,5 +1,5 @@
 var express = require('express');
-var connect = require('connect');
+var session = require('express-session');
 var request = require('request');
 var cas = require('../');
 var http = require('http');
@@ -40,10 +40,8 @@ describe('#ssout', function(){
 
 var serverSetup = function(done){
     var app = express()
-    .use(connect.cookieParser())
-    .use(connect.session({
+    .use(session({
         secret: 'ninja cat',
-        key: 'sid'
     }))
     .use(function(req, res, next){
         lastRequest = req;

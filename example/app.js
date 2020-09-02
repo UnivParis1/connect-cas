@@ -9,15 +9,15 @@
 var express = require('express');
 var cas = require('connect-cas');
 var url = require('url');
+var session = require('express-session');
 
 // Your CAS server's hostname
 cas.configure({ 'host': 'cas.YOURSCHOOLHERE.edu' });
 console.log(cas.configure());
 var app = express();
 
-// Use cookie sessions for simplicity, you can use something else
-app.use(express.cookieParser('this should be random and secure'));
-app.use(express.cookieSession());
+// Use cookie + memory sessions for simplicity, you can use something else
+app.use(session({ secret: 'this should be random and secure', resave: true, saveUninitialized: true }));
 
 app.get('/', function(req, res) {
   if (req.session.cas && req.session.cas.user) {
