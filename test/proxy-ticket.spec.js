@@ -2,10 +2,8 @@ var express = require('express');
 var connect = require('connect');
 var cas = require('../');
 var should = require('should');
-var parseUrl = require('url').parse;
 var request = require('request').defaults({strictSSL: false, followRedirect: false});
 var https = require('https');
-var q = require('q');
 var fs = require('fs');
 
 var lastRequest;

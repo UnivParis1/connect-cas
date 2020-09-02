@@ -3,7 +3,6 @@ var connect = require('connect');
 var request = require('request');
 var cas = require('../');
 var http = require('http');
-var should = require('should');
 
 describe('#ssout', function(){
     var server;
