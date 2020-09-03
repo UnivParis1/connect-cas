@@ -13,10 +13,10 @@ var validLogoutRequest = {
       </samlp:LogoutRequest>`,
 };
 
-describe('#ssout', function(){
+describe('#ssout on specific url', function(){
     var server;
     before(function(done){
-        server = serverSetup(done); 
+        server = serverSetup('/cas/logout', done); 
     });
     after(function(done){
         server.close(done);
@@ -47,7 +47,31 @@ describe('#ssout', function(){
     });
 });
 
-var serverSetup = function(done){
+describe('#ssout on condition', function(){
+    var server;
+    before(function(done){
+        server = serverSetup(function (req) { 
+            return req.header('Content-Type') === 'application/x-www-form-urlencoded';
+        }, done); 
+    });
+    after(function(done){
+        server.close(done);
+    });
+    it('logs the user out when CAS sends POST', function(done){
+        request.post({uri: 'http://localhost:3000/cas/logout', form: validLogoutRequest }, function(err, res, body){
+            res.statusCode.should.equal(204);
+            done();
+        });
+    });
+    it('continues to next() when unexpected content-type response', function(done){
+        request.put({uri: 'http://localhost:3000/cas/blah', body: 'hello'}, function(err, res, body){
+            res.statusCode.should.equal(307);
+            done();
+        });
+    });
+});
+
+var serverSetup = function(serviceUrl_or_predicate, done){
     var app = express()
     .use(session({
         secret: 'ninja cat',
@@ -56,7 +80,7 @@ var serverSetup = function(done){
         lastRequest = req;
         next();
     })
-    .use(cas.ssout('/cas/logout'))
+    .use(cas.ssout(serviceUrl_or_predicate))
     .use(cas.authenticate())
     .use(function(req, res, next){
         res.end('hello world');
