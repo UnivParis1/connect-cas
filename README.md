@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/AceMetrix/connect-cas.svg)](https://travis-ci.org/AceMetrix/connect-cas)
+[![Build Status](https://travis-ci.org/UnivParis1/connect-cas.svg)](https://travis-ci.org/UnivParis1/connect-cas)
 
 # Connect CAS
 
