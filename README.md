@@ -4,11 +4,11 @@
 
 Connect cas is a connect-based middleware that allows you to authenticate through a CAS 2.0+ server.  It supports the gateway auth, single sign-out, and proxying other CAS clients.
 
-Adapted from https://github.com/jmarca/cas_validate
+Adapted from https://github.com/jmarca/cas_validate, forked from https://github.com/AceMetrix/connect-cas .
 
 ## Installation
 
-    npm install connect-cas
+    npm install UnivParis1/connect-cas
 
 ## Options
 
@@ -43,7 +43,7 @@ connect()
 A more complete example of a simple Express app that uses CAS for login, displays the CAS username, and offers a logout link can be found in the `example` folder. You'll need to copy `example/app.js` to your own folder and install its dependencies:
 
     npm install express
-    npm install connect-cas
+    npm install UnivParis1/connect-cas
 
 Express is required only for the example app. It is not required for `connect-cas`.
 
